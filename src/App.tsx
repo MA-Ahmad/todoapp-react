@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   ChakraProvider,
   Box,
@@ -16,7 +16,7 @@ import {
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { TodoListItem } from "./TodoListItem";
 
-const todos: Todo[] = [
+const initialTodos: Todo[] = [
   {
     text: "Walk the dog",
     complete: false
@@ -27,27 +27,45 @@ const todos: Todo[] = [
   }
 ];
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <Flex justifyContent="center">
-          <VStack
-            divider={<StackDivider borderColor="gray.200" />}
-            spacing={4}
-            align="stretch"
-            width="50vh"
-            padding="5px"
-            border="1px solid"
-            borderColor="gray.200"
-            borderRadius="5px"
-          >
-            <TodoListItem todo={todos[0]} />
-            <TodoListItem todo={todos[1]} />
-          </VStack>
-        </Flex>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-);
+export const App = () => {
+  const [todos, setTodos] = useState(initialTodos);
+
+  // const toggleTodo = (selectedTodo: Todo) => {
+  const toggleTodo: ToggleTodo = (selectedTodo) => {
+    const newTodos = todos.map(todo => {
+      if (todo === selectedTodo) {
+        return {
+          ...todo,
+          complete: !todo.complete,
+        };
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  return (
+    <ChakraProvider theme={theme}>
+      <Box textAlign="center" fontSize="xl">
+        <Grid p={3}>
+          <ColorModeSwitcher justifySelf="flex-end" />
+          <Flex justifyContent="center">
+            <VStack
+              divider={<StackDivider borderColor="gray.200" />}
+              spacing={4}
+              align="stretch"
+              width="50vh"
+              padding="5px"
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="5px"
+            >
+              <TodoListItem todo={todos[0]} toggleTodo={toggleTodo} />
+              <TodoListItem todo={todos[1]} toggleTodo={toggleTodo} />
+            </VStack>
+          </Flex>
+        </Grid>
+      </Box>
+    </ChakraProvider>
+  );
+};

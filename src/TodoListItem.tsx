@@ -8,6 +8,7 @@ import { Checkbox } from "@chakra-ui/react";
 
 interface Props {
   todo: Todo;
+  toggleTodo: ToggleTodo;
 }
 
 export const TodoListItem: React.FC<Props> = ({ todo }) => {
