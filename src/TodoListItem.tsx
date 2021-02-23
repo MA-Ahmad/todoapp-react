@@ -1,10 +1,10 @@
 import React from "react";
 import { Checkbox } from "@chakra-ui/react";
 
-interface Todo {
-  text?: string;
-  complete?: boolean;
-}
+// interface Todo {
+//   text?: string;
+//   complete?: boolean;
+// }
 
 interface Props {
   todo: Todo;

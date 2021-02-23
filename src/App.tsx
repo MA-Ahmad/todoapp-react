@@ -16,11 +16,6 @@ import {
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { TodoListItem } from "./TodoListItem";
 
-type Todo = {
-  text: string;
-  complete: boolean;
-};
-
 const todos: Todo[] = [
   {
     text: "Walk the dog",
