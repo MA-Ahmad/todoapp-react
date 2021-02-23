@@ -11,9 +11,9 @@ interface Props {
   toggleTodo: ToggleTodo;
 }
 
-export const TodoListItem: React.FC<Props> = ({ todo }) => {
+export const TodoListItem: React.FC<Props> = ({ todo, toggleTodo }) => {
   return (
-    <Checkbox value="naruto" isChecked={todo.complete}>
+    <Checkbox value="naruto" isChecked={todo.complete} onChange={() => toggleTodo(todo)}>
       Naruto
     </Checkbox>
   );
