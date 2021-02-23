@@ -32,17 +32,23 @@ export const App = () => {
   const [todos, setTodos] = useState(initialTodos);
 
   // const toggleTodo = (selectedTodo: Todo) => {
-  const toggleTodo: ToggleTodo = (selectedTodo) => {
+  const toggleTodo: ToggleTodo = selectedTodo => {
     const newTodos = todos.map(todo => {
       if (todo === selectedTodo) {
         return {
           ...todo,
-          complete: !todo.complete,
+          complete: !todo.complete
         };
       }
       return todo;
     });
+    console.log(newTodos)
     setTodos(newTodos);
+  };
+
+  const addTodo: AddTodo = (text: string) => {
+    const newTodo = { text, complete: false };
+    setTodos([...todos, newTodo]);
   };
 
   return (
@@ -62,7 +68,7 @@ export const App = () => {
               borderRadius="5px"
             >
               {/* <TodoListItem todo={todos[0]} toggleTodo={toggleTodo} /> */}
-              <AddTodoForm />
+              <AddTodoForm addTodo={addTodo} />
               <TodoList todos={todos} toggleTodo={toggleTodo} />
             </VStack>
           </Flex>
