@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { TodoList } from "./TodoList";
+import { AddTodoForm } from "./AddTodoForm";
 
 const initialTodos: Todo[] = [
   {
@@ -61,6 +62,7 @@ export const App = () => {
               borderRadius="5px"
             >
               {/* <TodoListItem todo={todos[0]} toggleTodo={toggleTodo} /> */}
+              <AddTodoForm />
               <TodoList todos={todos} toggleTodo={toggleTodo} />
             </VStack>
           </Flex>
