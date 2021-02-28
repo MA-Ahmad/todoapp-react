@@ -1,79 +1,63 @@
-import React, { useState } from "react";
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-  Stack,
-  HStack,
-  StackDivider,
-  Flex
-} from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import { TodoList } from "./TodoList";
-import { AddTodoForm } from "./AddTodoForm";
-
-const initialTodos: Todo[] = [
-  {
-    text: "Walk the dog",
-    complete: false
-  },
-  {
-    text: "Write app",
-    complete: true
+import * as React from "react";
+import { render } from "react-dom";
+// Import components
+import ToDoForm from "./components/ToDoForm";
+import ToDoList from "./components/ToDoList";
+// Import interfaces
+import { TodoInterface } from "./interface";
+import "./style.css";
+const App: React.FC = () => {
+  const [todos, setTodos] = React.useState<TodoInterface[]>([]);
+  // Creating new todo item
+  function handleTodoCreate(todo: TodoInterface) {
+    const newTodosState: TodoInterface[] = [...todos];
+    newTodosState.push(todo);
+    setTodos(newTodosState);
   }
-];
+  // Update existing todo item
+  function handleTodoUpdate(
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) {
+    const newTodosState: TodoInterface[] = [...todos];
 
-export const App = () => {
-  const [todos, setTodos] = useState(initialTodos);
+    newTodosState.find((todo: TodoInterface) => todo.id === id)!.name =
+      event.target.value;
 
-  // const toggleTodo = (selectedTodo: Todo) => {
-  const toggleTodo: ToggleTodo = selectedTodo => {
-    const newTodos = todos.map(todo => {
-      if (todo === selectedTodo) {
-        return {
-          ...todo,
-          complete: !todo.complete
-        };
-      }
-      return todo;
-    });
-    console.log(newTodos)
-    setTodos(newTodos);
-  };
+    setTodos(newTodosState);
+  }
+  // Remove existing todo item
+  function handleTodoRemove(id: string) {
+    const newTodosState: TodoInterface[] = todos.filter(
+      (todo: TodoInterface) => todo.id !== id
+    );
 
-  const addTodo: AddTodo = (text: string) => {
-    const newTodo = { text, complete: false };
-    setTodos([...todos, newTodo]);
-  };
-
+    setTodos(newTodosState);
+  }
+  // Check existing todo item as completed
+  function handleTodoComplete(id: string) {
+    const newTodosState: TodoInterface[] = [...todos];
+    // Find the correct todo item and update its ‘isCompleted’ key
+    newTodosState.find(
+      (todo: TodoInterface) => todo.id === id
+    )!.isCompleted = !newTodosState.find(
+      (todo: TodoInterface) => todo.id === id
+    )!.isCompleted;
+    setTodos(newTodosState);
+  }
   return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <Flex justifyContent="center">
-            <VStack
-              divider={<StackDivider borderColor="gray.200" />}
-              spacing={4}
-              align="stretch"
-              width="50vh"
-              padding="5px"
-              border="1px solid"
-              borderColor="gray.200"
-              borderRadius="5px"
-            >
-              {/* <TodoListItem todo={todos[0]} toggleTodo={toggleTodo} /> */}
-              <AddTodoForm addTodo={addTodo} />
-              <TodoList todos={todos} toggleTodo={toggleTodo} />
-            </VStack>
-          </Flex>
-        </Grid>
-      </Box>
-    </ChakraProvider>
+    <div className="App">
+      <React.Fragment>
+        <h2>My ToDo APP</h2>
+        <ToDoForm todos={todos} handleTodoCreate={handleTodoCreate} />
+        <ToDoList
+          todos={todos}
+          handleTodoUpdate={handleTodoUpdate}
+          handleTodoRemove={handleTodoRemove}
+          handleTodoComplete={handleTodoComplete}
+        />
+      </React.Fragment>
+    </div>
   );
 };
+export default App;
